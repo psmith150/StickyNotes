@@ -9,7 +9,9 @@
         <CommandBinding Command="ApplicationCommands.Open" Executed="Open_Executed" />
         <CommandBinding Command="ApplicationCommands.Save" Executed="Save_Executed" />
     </UserControl.CommandBindings>
-    <DockPanel LastChildFill="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" Width="Auto">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <DockPanel LastChildFill="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" Width="Auto" Background="Transparent">
         <ToolBar DockPanel.Dock="Top" Height="Auto">
             <Button Command="ApplicationCommands.Open">
                 <Image Source="C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\Resources\folder.png" Width="16" Height="16" />
@@ -38,15 +40,7 @@
             <ComboBox Name="cmbFontFamily" Width="150" SelectionChanged="cmbFontFamily_SelectionChanged" />
             <ComboBox Name="cmbFontSize" Width="50" IsEditable="True" TextBoxBase.TextChanged="cmbFontSize_TextChanged" />
         </ToolBar>
-        <RichTextBox Name="rtbEditor" SpellCheck.IsEnabled="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" Width="Auto" AcceptsTab="True">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="0"></Setter>
-                </Style>
-                <Style TargetType="{x:Type List}">
-                    <Setter Property="Margin" Value="0"></Setter>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
+        <Canvas Name="myCanvas" Background="Orange" Focusable="True" MouseLeftButtonDown="AddDataBox">
+        </Canvas>
     </DockPanel>
 </UserControl>

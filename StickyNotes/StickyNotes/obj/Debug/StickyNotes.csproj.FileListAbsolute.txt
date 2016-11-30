@@ -14,3 +14,7 @@ C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.exe
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.pdb
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNoteTab.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNoteTab.baml
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StyleDictionary.baml
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\DataBox.g.cs
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\App.baml
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\DataBox.baml

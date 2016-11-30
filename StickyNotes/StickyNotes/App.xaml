@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:StickyNotes"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\StyleDictionary.xaml"/>
     </Application.Resources>
 </Application>

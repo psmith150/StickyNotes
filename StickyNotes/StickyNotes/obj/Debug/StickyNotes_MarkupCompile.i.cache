@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\App.xaml
-2-1375227189
+4-1806600366
 
-10-1126588295
+121602091121
 14-1001767708
-MainWindow.xaml;StickyNoteTab.xaml;
+DataBox.xaml;StyleDictionary.xaml;MainWindow.xaml;StickyNoteTab.xaml;
 
-False
+True
 

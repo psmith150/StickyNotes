@@ -25,21 +25,6 @@ namespace StickyNotes
             cmbFontSize.SelectedIndex = 2;
         }
 
-        private void rtbEditor_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            object temp = rtbEditor.Selection.GetPropertyValue(Inline.FontWeightProperty);
-            btnBold.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontWeights.Bold));
-            temp = rtbEditor.Selection.GetPropertyValue(Inline.FontStyleProperty);
-            btnItalic.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(FontStyles.Italic));
-            temp = rtbEditor.Selection.GetPropertyValue(Inline.TextDecorationsProperty);
-            btnUnderline.IsChecked = (temp != DependencyProperty.UnsetValue) && (temp.Equals(TextDecorations.Underline));
-
-            temp = rtbEditor.Selection.GetPropertyValue(Inline.FontFamilyProperty);
-            cmbFontFamily.SelectedItem = temp;
-            temp = rtbEditor.Selection.GetPropertyValue(Inline.FontSizeProperty);
-            cmbFontSize.Text = temp.ToString();
-        }
-
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -47,8 +32,8 @@ namespace StickyNotes
             if (dlg.ShowDialog() == true)
             {
                 FileStream fileStream = new FileStream(dlg.FileName, FileMode.Open);
-                TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
-                range.Load(fileStream, DataFormats.Rtf);
+                //TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
+                //range.Load(fileStream, DataFormats.Rtf);
             }
         }
 
@@ -59,20 +44,31 @@ namespace StickyNotes
             if (dlg.ShowDialog() == true)
             {
                 FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
-                TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
-                range.Save(fileStream, DataFormats.Rtf);
+                //TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
+                //range.Save(fileStream, DataFormats.Rtf);
             }
         }
 
         private void cmbFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbFontFamily.SelectedItem != null)
-                rtbEditor.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
+            //if (cmbFontFamily.SelectedItem != null)
+                //rtbEditor.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
         }
 
         private void cmbFontSize_TextChanged(object sender, TextChangedEventArgs e)
         {
-            rtbEditor.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.Text);
+            //rtbEditor.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.Text);
+        }
+
+        private void AddDataBox(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                var test = new DataBox(myCanvas);
+                myCanvas.Children.Add(test);
+                Canvas.SetLeft(test, 0);
+                Canvas.SetTop(test, 0);
+            }
         }
     }
 }

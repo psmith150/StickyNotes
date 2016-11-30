@@ -56,9 +56,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataBox.xaml.cs">
+      <DependentUpon>DataBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResizingAdorner.cs" />
     <Compile Include="StickyNoteTab.xaml.cs">
       <DependentUpon>StickyNoteTab.xaml</DependentUpon>
     </Compile>
+    <Page Include="DataBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StyleDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,22 +116,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\delete.jpg" />
+    <Resource Include="Resources\delete.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\disk.png" />
+    <Resource Include="Resources\disk.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\folder.png" />
+    <Resource Include="Resources\folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text_bold.png" />
+    <Resource Include="Resources\text_bold.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text_italic.png" />
+    <Resource Include="Resources\text_italic.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\text_underline.png" />
+    <Resource Include="Resources\text_underline.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
