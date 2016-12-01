@@ -1,14 +1,29 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:StickyNotes">
-
-    <Style x:Key="ThumbStyle" TargetType="{x:Type Thumb}">
+                    xmlns:local="clr-namespace:StickyNotes"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:Double x:Key="CornerAdornerSize">6</sys:Double>
+    <sys:Double x:Key="SideAdornerSize">4</sys:Double>
+    <Style x:Key="CornerThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle Width="6" Height="6" Stroke="DarkSlateGray" StrokeThickness="0.5">
+                    <Rectangle Width="{StaticResource CornerAdornerSize}" Height="{StaticResource CornerAdornerSize}" Stroke="Transparent" StrokeThickness="0.5">
                         <Rectangle.Fill >
-                            <SolidColorBrush Color="Black" Opacity="1"></SolidColorBrush>
+                            <SolidColorBrush Color="Transparent" Opacity="1"></SolidColorBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="SideThumbStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle Stroke="Transparent" StrokeThickness="0">
+                        <Rectangle.Fill >
+                            <SolidColorBrush Color="Transparent" Opacity="1"></SolidColorBrush>
                         </Rectangle.Fill>
                     </Rectangle>
                 </ControlTemplate>
@@ -16,26 +31,62 @@
         </Setter>
     </Style>
     <Style x:Key="DeleteButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Button Background="Transparent" BorderBrush="Transparent">
-                        <TextBox Foreground="Red" Background="Transparent" BorderBrush="Transparent">X</TextBox>
-                    </Button>
+                    <Grid Background="Transparent">
+                        <Ellipse Name="Test1" Height="10" Width="10" Fill="Transparent" StrokeThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock FontSize="9" FontWeight="Bold" Text="X" HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Height="Auto"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Test1" Property="Fill" Value="DarkGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="HeaderBarStyle" TargetType="{x:Type DockPanel}">
+        <Setter Property="Background">
+            <Setter.Value>
+                Silver
+                <!--<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="LightGray" Offset="0" />
+                    <GradientStop Color="DarkGray" Offset="0.5" />
+                    <GradientStop Color="LightGray" Offset="1" />
+                </LinearGradientBrush>-->
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="TextEditorStyle" TargetType="{x:Type RichTextBox}">
+        <Setter Property="Background">
+            <Setter.Value>
+                Transparent
+                <!--<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="LightGray" Offset="0" />
+                    <GradientStop Color="DarkGray" Offset="0.5" />
+                    <GradientStop Color="LightGray" Offset="1" />
+                </LinearGradientBrush>-->
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="LightGray"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style x:Key="EditorCanvasStyle" TargetType="{x:Type Canvas}">
+        <Setter Property="Background">
+            <Setter.Value>
+                #FFEAEAEA
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="HeaderRectangleStyle" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="Transparent"/>
+        <Setter Property="Height" Value="12"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Button Background="DarkGray" BorderBrush="Transparent">
-                                <TextBox Foreground="Red" Background="Transparent" BorderBrush="Transparent">X</TextBox>
-                            </Button>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="Cursor" Value="SizeAll" />
             </Trigger>
         </Style.Triggers>
     </Style>

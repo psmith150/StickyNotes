@@ -40,7 +40,7 @@
             <ComboBox Name="cmbFontFamily" Width="150" SelectionChanged="cmbFontFamily_SelectionChanged" />
             <ComboBox Name="cmbFontSize" Width="50" IsEditable="True" TextBoxBase.TextChanged="cmbFontSize_TextChanged" />
         </ToolBar>
-        <Canvas Name="myCanvas" Background="Orange" Focusable="True" MouseLeftButtonDown="AddDataBox">
+        <Canvas Name="myCanvas" Style="{StaticResource EditorCanvasStyle}" Focusable="True" MouseLeftButtonDown="AddDataBox">
         </Canvas>
     </DockPanel>
 </UserControl>

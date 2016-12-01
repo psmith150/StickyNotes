@@ -29,15 +29,17 @@ namespace StickyNotes
         bool selected = false;
         UIElement selectedElement = null;
         Canvas myCanvas;
+        private StickyNoteTab _parentTab;
 
         Point _startPoint;
         private double _originalLeft;
         private double _originalTop;
 
-        public DataBox(Canvas parentCanvas)
+        public DataBox(StickyNoteTab parentTab)
         {
             InitializeComponent();
-            myCanvas = parentCanvas;
+            _parentTab = parentTab;
+            myCanvas = parentTab.myCanvas;
         }
 
         private void rtbEditor_SelectionChanged(object sender, RoutedEventArgs e)
@@ -64,6 +66,7 @@ namespace StickyNotes
 
             aLayer = AdornerLayer.GetAdornerLayer(this);
             adorner = new ResizingAdorner(this);
+            aLayer.Add(adorner);
 
             myCanvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(myCanvas_PreviewMouseLeftButtonDown);
             //myCanvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(DragFinishedMouseHandler);
@@ -71,6 +74,7 @@ namespace StickyNotes
 
         void myCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            return;
             // Remove selection on clicking anywhere the window
             if (selected)
             {
@@ -109,7 +113,6 @@ namespace StickyNotes
         // Handler for clearing element selection, adorner removal
         void StickyNoteTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
         }
 
         // Handler for drag stopping on leaving the window
@@ -144,8 +147,6 @@ namespace StickyNotes
 
             selectedElement = this; // e.Source as UIElement;
                                     //MessageBox.Show(e.Source.ToString());
-            if (aLayer.GetAdorners(this) == null)
-                aLayer.Add(adorner);
             _originalLeft = Canvas.GetLeft(selectedElement);
             _originalTop = Canvas.GetTop(selectedElement);
 
@@ -156,14 +157,29 @@ namespace StickyNotes
 
         private void DataBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Gets here");
             this.ReleaseMouseCapture();
-            aLayer.Remove(adorner);
+            //aLayer.Remove(adorner);
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             myCanvas.Children.Remove(this);
+        }
+
+        private void OnEditorCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Paste)
+            {
+                if (Clipboard.ContainsImage())
+                {
+                   // rtbEditor.
+                }
+            }
+        }
+
+        private void UserControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            _parentTab.getFocusedEditor(this.rtbEditor);
         }
     }
 }

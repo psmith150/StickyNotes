@@ -6,14 +6,16 @@
              xmlns:local="clr-namespace:StickyNotes"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Loaded="UserControl_Loaded">
-    <DockPanel Background="LightGray" Name="OuterPanel" Width="Auto" Height="Auto" MinWidth="30">
-        <DockPanel DockPanel.Dock="Top" Height="Auto" Width="Auto">
-            <Button Name="btnDelete" DockPanel.Dock="Right" Style="{StaticResource DeleteButtonStyle}">
+             Loaded="UserControl_Loaded" GotFocus="UserControl_GotFocus">
+    <DockPanel Background="Transparent" Name="OuterPanel" Width="Auto" Height="Auto" MinWidth="30">
+        <DockPanel Style="{StaticResource HeaderBarStyle}" DockPanel.Dock="Top" Height="Auto" Width="Auto">
+            <Button Name="btnDelete" DockPanel.Dock="Right" Style="{StaticResource DeleteButtonStyle}" Margin="0,0,2,0" Click="btnDelete_Click" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}">
             </Button>
-            <Rectangle Fill="Transparent" Name="HeaderBar" Height="20" Width="Auto" MouseDown="HeaderBar_MouseDown"/>
+            <Rectangle Style="{StaticResource HeaderRectangleStyle}"  Name="HeaderBar" Width="Auto" MouseDown="HeaderBar_MouseDown"/>
         </DockPanel>
-        <RichTextBox Name="rtbEditor" SpellCheck.IsEnabled="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" Width="Auto" AcceptsTab="True">
+        <RichTextBox Name="rtbEditor" Style="{StaticResource TextEditorStyle}" SpellCheck.IsEnabled="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" 
+                     Width="Auto" AcceptsTab="True" CommandManager.PreviewExecuted="OnEditorCommand">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"></Setter>

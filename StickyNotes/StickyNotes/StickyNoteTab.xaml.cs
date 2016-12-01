@@ -16,6 +16,7 @@ namespace StickyNotes
     /// </summary>
     public partial class StickyNoteTab : UserControl
     {
+        private RichTextBox currEditor;
         public StickyNoteTab()
         {
             InitializeComponent();
@@ -27,48 +28,60 @@ namespace StickyNotes
 
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
-            if (dlg.ShowDialog() == true)
+            if (currEditor != null)
             {
-                FileStream fileStream = new FileStream(dlg.FileName, FileMode.Open);
-                //TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
-                //range.Load(fileStream, DataFormats.Rtf);
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                if (dlg.ShowDialog() == true)
+                {
+                    FileStream fileStream = new FileStream(dlg.FileName, FileMode.Open);
+                    TextRange range = new TextRange(currEditor.Document.ContentStart, currEditor.Document.ContentEnd);
+                    range.Load(fileStream, DataFormats.Rtf);
+                }
             }
         }
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
-            if (dlg.ShowDialog() == true)
-            {
-                FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
-                //TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
-                //range.Save(fileStream, DataFormats.Rtf);
+            if (currEditor != null)
+            { 
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                if (dlg.ShowDialog() == true)
+                {
+                    FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
+                    TextRange range = new TextRange(currEditor.Document.ContentStart, currEditor.Document.ContentEnd);
+                    range.Save(fileStream, DataFormats.Rtf);
+                }
             }
         }
 
         private void cmbFontFamily_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (cmbFontFamily.SelectedItem != null)
-                //rtbEditor.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
+            if (cmbFontFamily.SelectedItem != null && currEditor != null)
+                currEditor.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, cmbFontFamily.SelectedItem);
         }
 
         private void cmbFontSize_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //rtbEditor.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.Text);
+            if (currEditor != null)
+                currEditor.Selection.ApplyPropertyValue(Inline.FontSizeProperty, cmbFontSize.Text);
         }
 
         private void AddDataBox(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
             {
-                var test = new DataBox(myCanvas);
+                var test = new DataBox(this);
                 myCanvas.Children.Add(test);
-                Canvas.SetLeft(test, 0);
-                Canvas.SetTop(test, 0);
+                Canvas.SetLeft(test, e.GetPosition(myCanvas).X);
+                Canvas.SetTop(test, e.GetPosition(myCanvas).Y);
             }
+        }
+
+        public void getFocusedEditor(RichTextBox editor)
+        {
+            currEditor = editor;
         }
     }
 }

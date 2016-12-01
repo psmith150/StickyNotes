@@ -12,8 +12,9 @@ namespace StickyNotes
     {
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
-        Thumb topLeft, topRight, bottomLeft, bottomRight;
-        Style thumbStyle;
+        Thumb topLeft, topRight, bottomLeft, bottomRight, left, right, top, bottom;
+        Style cornerThumbStyle;
+        Style sideThumbStyle;
 
         // To store and manage the adorner's visual children.
         VisualCollection visualChildren;
@@ -26,7 +27,8 @@ namespace StickyNotes
 
             ResourceDictionary myStyles = new ResourceDictionary();
             myStyles.Source = new Uri("/StickyNotes;component/StyleDictionary.xaml", UriKind.RelativeOrAbsolute);
-            thumbStyle = myStyles["ThumbStyle"] as Style;
+            cornerThumbStyle = myStyles["CornerThumbStyle"] as Style;
+            sideThumbStyle = myStyles["SideThumbStyle"] as Style;
 
             // Call a helper method to initialize the Thumbs
             // with a customized cursors.
@@ -34,12 +36,20 @@ namespace StickyNotes
             BuildAdornerCorner(ref topRight, Cursors.SizeNESW);
             BuildAdornerCorner(ref bottomLeft, Cursors.SizeNESW);
             BuildAdornerCorner(ref bottomRight, Cursors.SizeNWSE);
+            BuildAdornerSide(ref top, Cursors.SizeNS, 't');
+            BuildAdornerSide(ref left, Cursors.SizeWE, 'l');
+            BuildAdornerSide(ref right, Cursors.SizeWE, 'r');
+            BuildAdornerSide(ref bottom, Cursors.SizeNS, 'b');
 
             // Add handlers for resizing.
             bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
             bottomRight.DragDelta += new DragDeltaEventHandler(HandleBottomRight);
             topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
             topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
+            top.DragDelta += new DragDeltaEventHandler(HandleTop);
+            left.DragDelta += new DragDeltaEventHandler(HandleLeft);
+            right.DragDelta += new DragDeltaEventHandler(HandleRight);
+            bottom.DragDelta += new DragDeltaEventHandler(HandleBottom);
         }
 
         // Handler for resizing from the bottom-right.
@@ -134,6 +144,94 @@ namespace StickyNotes
             adornedElement.Width = width_new;
             Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
         }
+        // Handler for resizing from the bottom-left.
+        void HandleTop(object sender, DragDeltaEventArgs args)
+        {
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
+            Thumb hitThumb = sender as Thumb;
+
+            if (adornedElement == null || hitThumb == null) return;
+
+            // Ensure that the Width and Height are properly initialized after the resize.
+            EnforceSize(adornedElement);
+
+            // Change the size by the amount the user drags the mouse, as long as it's larger 
+            // than the width or height of an adorner, respectively.
+            //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            //adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
+
+            double height_old = adornedElement.Height;
+            double height_new = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
+            double top_old = Canvas.GetTop(adornedElement);
+            adornedElement.Height = height_new;
+            Canvas.SetTop(adornedElement, top_old - (height_new - height_old));
+        }
+        // Handler for resizing from the bottom-left.
+        void HandleLeft(object sender, DragDeltaEventArgs args)
+        {
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
+            Thumb hitThumb = sender as Thumb;
+
+            if (adornedElement == null || hitThumb == null) return;
+
+            // Ensure that the Width and Height are properly initialized after the resize.
+            EnforceSize(adornedElement);
+
+            // Change the size by the amount the user drags the mouse, as long as it's larger 
+            // than the width or height of an adorner, respectively.
+            //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            //adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
+
+            double width_old = adornedElement.Width;
+            double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            double left_old = Canvas.GetLeft(adornedElement);
+            adornedElement.Width = width_new;
+            Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
+        }
+
+        // Handler for resizing from the bottom-left.
+        void HandleRight(object sender, DragDeltaEventArgs args)
+        {
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
+            Thumb hitThumb = sender as Thumb;
+
+            if (adornedElement == null || hitThumb == null) return;
+
+            // Ensure that the Width and Height are properly initialized after the resize.
+            EnforceSize(adornedElement);
+
+            // Change the size by the amount the user drags the mouse, as long as it's larger 
+            // than the width or height of an adorner, respectively.
+            //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            //adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
+
+            double width_old = adornedElement.Width;
+            double width_new = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
+            double left_old = Canvas.GetLeft(adornedElement);
+            adornedElement.Width = width_new;
+        }
+
+        // Handler for resizing from the bottom-left.
+        void HandleBottom(object sender, DragDeltaEventArgs args)
+        {
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
+            Thumb hitThumb = sender as Thumb;
+
+            if (adornedElement == null || hitThumb == null) return;
+
+            // Ensure that the Width and Height are properly initialized after the resize.
+            EnforceSize(adornedElement);
+
+            // Change the size by the amount the user drags the mouse, as long as it's larger 
+            // than the width or height of an adorner, respectively.
+            //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            //adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
+
+            double height_old = adornedElement.Height;
+            double height_new = Math.Max(adornedElement.Height + args.VerticalChange, hitThumb.DesiredSize.Height);
+            double top_old = Canvas.GetTop(adornedElement);
+            adornedElement.Height = height_new;
+        }
 
         // Arrange the Adorners.
         protected override Size ArrangeOverride(Size finalSize)
@@ -150,6 +248,10 @@ namespace StickyNotes
             topRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
             bottomLeft.Arrange(new Rect(-adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
             bottomRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
+            top.Arrange(new Rect(0, 0, adornerWidth, adornerHeight));
+            left.Arrange(new Rect(0, 0, adornerWidth, adornerHeight));
+            right.Arrange(new Rect(0, 0, adornerWidth, adornerHeight));
+            bottom.Arrange(new Rect(0, 0, adornerWidth, adornerHeight));
 
             // Return the final size.
             return finalSize;
@@ -165,7 +267,7 @@ namespace StickyNotes
 
             // Set some arbitrary visual characteristics.
             cornerThumb.Cursor = customizedCursor;
-            cornerThumb.Style = thumbStyle;
+            cornerThumb.Style = cornerThumbStyle;
             //cornerThumb.Height = cornerThumb.Width = 8;
             //cornerThumb.Opacity = 1;
             //cornerThumb.Background = new SolidColorBrush(Colors.Black);
@@ -173,18 +275,44 @@ namespace StickyNotes
             visualChildren.Add(cornerThumb);
         }
 
-        void BuildAdornerCenter(ref Thumb centerThumb, Cursor customizedCursor)
+        void BuildAdornerSide(ref Thumb sideThumb, Cursor customizedCursor, char side)
         {
-            if (centerThumb != null) return;
+            if (sideThumb != null) return;
 
-            centerThumb = new Thumb();
+            sideThumb = new Thumb();
 
             // Set some arbitrary visual characteristics.
-            centerThumb.Cursor = customizedCursor;
-            centerThumb.Height = centerThumb.Width = 8;
-            centerThumb.Opacity = 1;
-            centerThumb.Background = new SolidColorBrush(Colors.Black);
-            visualChildren.Add(centerThumb);
+            sideThumb.Cursor = customizedCursor;
+            sideThumb.Style = sideThumbStyle;
+            if (side == 't')
+            {
+                sideThumb.Height = (double) Application.Current.Resources["SideAdornerSize"];
+                sideThumb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                sideThumb.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else if (side == 'b')
+            {
+                sideThumb.Height = (double)Application.Current.Resources["SideAdornerSize"];
+                sideThumb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                sideThumb.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+            else if (side == 'l')
+            {
+                sideThumb.Width = (double)Application.Current.Resources["SideAdornerSize"];
+                sideThumb.HorizontalAlignment = HorizontalAlignment.Left;
+                sideThumb.VerticalAlignment = VerticalAlignment.Stretch;
+            }
+            else if (side == 'r')
+            {
+                sideThumb.Width = (double)Application.Current.Resources["SideAdornerSize"];
+                sideThumb.HorizontalAlignment = HorizontalAlignment.Right;
+                sideThumb.VerticalAlignment = VerticalAlignment.Stretch;
+            }
+            //cornerThumb.Height = cornerThumb.Width = 8;
+            //cornerThumb.Opacity = 1;
+            //cornerThumb.Background = new SolidColorBrush(Colors.Black);
+
+            visualChildren.Add(sideThumb);
         }
 
         // This method ensures that the Widths and Heights are initialized.  Sizing to content produces
