@@ -5,20 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StickyNotes"
         mc:Ignorable="d"
-        Title="Sticky Note" Height="500" Width="700" Topmost="True" WindowStyle="ToolWindow">
+        Title="MainWindow" Height="300" Width="300" WindowStyle="None" Visibility="Hidden" ShowInTaskbar="False" Background="Transparent">
     <Grid>
-        <TabControl Name="tabDynamic" ItemsSource="{Binding}" SelectionChanged="tabDynamic_SelectionChanged" Margin="10" BorderThickness="0" Background="LightGray">
-            <TabControl.Resources>
-                <DataTemplate x:Key="TabHeader" DataType="TabItem">
-                    <DockPanel>
-                        <Button Name="btnDelete" DockPanel.Dock="Right" Margin="5,0,0,0" Padding="0" 
-                                Click="btnDelete_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}"
-                                Style="{StaticResource DeleteButtonStyle}">
-                        </Button>
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Header}" />
-                    </DockPanel>
-                </DataTemplate>
-            </TabControl.Resources>
-        </TabControl>
+        
     </Grid>
 </Window>

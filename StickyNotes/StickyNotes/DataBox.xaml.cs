@@ -23,6 +23,10 @@ namespace StickyNotes
 
         AdornerLayer aLayer;
         ResizingAdorner adorner;
+        ResourceDictionary myStyles;
+        Style cornerThumbStyle;
+        Style sideThumbStyle;
+        Style cornerThumbStyle_Visible;
 
         bool _isDown;
         bool _isDragging;
@@ -40,6 +44,11 @@ namespace StickyNotes
             InitializeComponent();
             _parentTab = parentTab;
             myCanvas = parentTab.myCanvas;
+            myStyles = new ResourceDictionary();
+            myStyles.Source = new Uri("/StickyNotes;component/StyleDictionary.xaml", UriKind.RelativeOrAbsolute);
+            cornerThumbStyle = myStyles["CornerThumbStyle"] as Style;
+            sideThumbStyle = myStyles["SideThumbStyle"] as Style;
+            cornerThumbStyle_Visible = myStyles["CornerThumbStyle_Visible"] as Style;
         }
 
         private void rtbEditor_SelectionChanged(object sender, RoutedEventArgs e)
@@ -63,18 +72,43 @@ namespace StickyNotes
             this.MouseLeftButtonUp += new MouseButtonEventHandler(DragFinishedMouseHandler);
             this.MouseMove += new MouseEventHandler(StickyNoteTab_MouseMove);
             this.MouseLeave += new MouseEventHandler(StickyNoteTab_MouseLeave);
+            //rtbEditor.MouseLeftButtonDown += new MouseButtonEventHandler(Editor_MouseLeftButtonDown);
+            rtbEditor.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(Editor_MouseLeftButtonDown);
 
             aLayer = AdornerLayer.GetAdornerLayer(this);
-            adorner = new ResizingAdorner(this);
+            adorner = new ResizingAdorner(this, cornerThumbStyle, sideThumbStyle);
             aLayer.Add(adorner);
 
-            myCanvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(myCanvas_PreviewMouseLeftButtonDown);
+            //myCanvas.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(myCanvas_PreviewMouseLeftButtonDown);
             //myCanvas.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(DragFinishedMouseHandler);
+        }
+
+        void Editor_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show(e.Source.ToString());
+            if (e.Source is Image)
+            {
+                Image currImage = e.Source as Image;
+                aLayer = AdornerLayer.GetAdornerLayer(currImage);
+                adorner = new ResizingAdorner(currImage, cornerThumbStyle_Visible, sideThumbStyle);
+                aLayer.Add(adorner);
+                selectedElement = currImage;
+                selected = true;
+            }
+            else if (e.Source is Paragraph)
+            {
+                selected = false;
+                if (selectedElement != null)
+                {
+                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
+                    selectedElement = null;
+                }
+            }
         }
 
         void myCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            return;
+            //return;
             // Remove selection on clicking anywhere the window
             if (selected)
             {
@@ -113,6 +147,7 @@ namespace StickyNotes
         // Handler for clearing element selection, adorner removal
         void StickyNoteTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            MessageBox.Show(e.Source.ToString());
         }
 
         // Handler for drag stopping on leaving the window
@@ -172,7 +207,20 @@ namespace StickyNotes
             {
                 if (Clipboard.ContainsImage())
                 {
-                   // rtbEditor.
+                    Image newImage = new Image();
+                    newImage.Source = Clipboard.GetImage();
+                    double tempWidth = newImage.Width;
+                    newImage.Width = 0.4 * rtbEditor.ActualWidth;
+                    newImage.Height = newImage.Height * newImage.Width / tempWidth;
+                    Paragraph para = rtbEditor.CaretPosition.Paragraph;
+                    InlineUIContainer container = new InlineUIContainer(newImage);
+                    if (para == null)
+                    {
+                        para = new Paragraph();
+                        rtbEditor.Document.Blocks.Add(para);
+                    }
+                    para.Inlines.Add(container);
+                    e.Handled = true;
                 }
             }
         }

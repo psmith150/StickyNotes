@@ -20,15 +20,15 @@ namespace StickyNotes
         VisualCollection visualChildren;
 
         // Initialize the ResizingAdorner.
-        public ResizingAdorner(UIElement adornedElement)
+        public ResizingAdorner(UIElement adornedElement, Style cornerStyle, Style sideStyle)
             : base(adornedElement)
         {
             visualChildren = new VisualCollection(this);
 
             ResourceDictionary myStyles = new ResourceDictionary();
             myStyles.Source = new Uri("/StickyNotes;component/StyleDictionary.xaml", UriKind.RelativeOrAbsolute);
-            cornerThumbStyle = myStyles["CornerThumbStyle"] as Style;
-            sideThumbStyle = myStyles["SideThumbStyle"] as Style;
+            cornerThumbStyle = cornerStyle;
+            sideThumbStyle = sideStyle;
 
             // Call a helper method to initialize the Thumbs
             // with a customized cursors.
@@ -289,24 +289,28 @@ namespace StickyNotes
                 sideThumb.Height = (double) Application.Current.Resources["SideAdornerSize"];
                 sideThumb.HorizontalAlignment = HorizontalAlignment.Stretch;
                 sideThumb.VerticalAlignment = VerticalAlignment.Top;
+                sideThumb.Margin = new Thickness(2,0,2,0);
             }
             else if (side == 'b')
             {
                 sideThumb.Height = (double)Application.Current.Resources["SideAdornerSize"];
                 sideThumb.HorizontalAlignment = HorizontalAlignment.Stretch;
                 sideThumb.VerticalAlignment = VerticalAlignment.Bottom;
+                sideThumb.Margin = new Thickness(2, 0, 2, 0);
             }
             else if (side == 'l')
             {
                 sideThumb.Width = (double)Application.Current.Resources["SideAdornerSize"];
                 sideThumb.HorizontalAlignment = HorizontalAlignment.Left;
                 sideThumb.VerticalAlignment = VerticalAlignment.Stretch;
+                sideThumb.Margin = new Thickness(0,2,0,2);
             }
             else if (side == 'r')
             {
                 sideThumb.Width = (double)Application.Current.Resources["SideAdornerSize"];
                 sideThumb.HorizontalAlignment = HorizontalAlignment.Right;
                 sideThumb.VerticalAlignment = VerticalAlignment.Stretch;
+                sideThumb.Margin = new Thickness(0, 2, 0, 2);
             }
             //cornerThumb.Height = cornerThumb.Width = 8;
             //cornerThumb.Opacity = 1;

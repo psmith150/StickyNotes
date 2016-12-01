@@ -2,8 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:StickyNotes"
-             StartupUri="MainWindow.xaml">
+             xmlns:custom="clr-namespace:StickyNotes.CustomWindow">
     <Application.Resources>
-        <ResourceDictionary Source="C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\StyleDictionary.xaml"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleDictionary.xaml"/>
+                <ResourceDictionary Source="CustomWindowDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

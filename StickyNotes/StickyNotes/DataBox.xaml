@@ -15,7 +15,7 @@
             <Rectangle Style="{StaticResource HeaderRectangleStyle}"  Name="HeaderBar" Width="Auto" MouseDown="HeaderBar_MouseDown"/>
         </DockPanel>
         <RichTextBox Name="rtbEditor" Style="{StaticResource TextEditorStyle}" SpellCheck.IsEnabled="True" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" 
-                     Width="Auto" AcceptsTab="True" CommandManager.PreviewExecuted="OnEditorCommand">
+                     Width="Auto" AcceptsTab="True"  CommandManager.PreviewExecuted="OnEditorCommand" IsDocumentEnabled="True">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"></Setter>
@@ -24,6 +24,14 @@
                     <Setter Property="Margin" Value="0"></Setter>
                 </Style>
             </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph>
+                    <InlineUIContainer>
+                        <Image x:Name ="test" Source="C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\Resources\delete.jpg" 
+                               Height="20" Width="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stretch="Fill"/>
+                    </InlineUIContainer>
+                </Paragraph>
+            </FlowDocument>
         </RichTextBox>
     </DockPanel>
 </UserControl>
