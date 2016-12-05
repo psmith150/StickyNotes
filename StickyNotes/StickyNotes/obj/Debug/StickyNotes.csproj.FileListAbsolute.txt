@@ -1,14 +1,14 @@
-C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\bin\Debug\StickyNotes.exe.config
-C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\bin\Debug\StickyNotes.exe
-C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\bin\Debug\StickyNotes.pdb
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\DataBox.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\MainWindow.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNoteWindow.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNoteTab.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\App.g.cs
-C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes_MarkupCompile.cache
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes_MarkupCompile.lref
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\bin\Debug\StickyNotes.exe.config
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\bin\Debug\StickyNotes.exe
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\bin\Debug\StickyNotes.pdb
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\App.baml
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\CustomWindowDictionary.baml
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\DataBox.baml
@@ -21,3 +21,4 @@ C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.Prop
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.csproj.GenerateResource.Cache
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.exe
 C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.pdb
+C:\Training\StickyNotes\trunk\StickyNotes\StickyNotes\obj\Debug\StickyNotes.csprojResolveAssemblyReference.cache

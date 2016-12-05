@@ -4,14 +4,16 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:custom="clr-namespace:StickyNotes.CustomWindow">
 
+    <sys:Double x:Key="ButtonSize">15</sys:Double>
+    <GridLength x:Key="ButtonGridWidth">45</GridLength>
     <!--the brushes used in the template (use these to customize the window look along with the window style (see the bottom of this file)-->
     <SolidColorBrush x:Key="WindowColor" Color="Red"/>
     <SolidColorBrush x:Key="WindowBackColor" Color="Orange"/>
-    <SolidColorBrush x:Key="WindowForeColor" Color="WhiteSmoke"/>
-    <SolidColorBrush x:Key="WindowForeHighlightColor" Color="WhiteSmoke"/>
-    <SolidColorBrush x:Key="WindowButtonColor" Color="Blue"/>
-    <SolidColorBrush x:Key="WindowButtonOverColor" Color="LightBlue"/>
-    <SolidColorBrush x:Key="WindowButtonPressedColor" Color="DarkBlue"/>
+    <SolidColorBrush x:Key="WindowForeColor" Color="Black"/>
+    <SolidColorBrush x:Key="WindowForeHighlightColor" Color="Black"/>
+    <SolidColorBrush x:Key="WindowButtonColor" Color="Transparent"/>
+    <SolidColorBrush x:Key="WindowButtonOverColor" Color="DarkGoldenrod"/>
+    <SolidColorBrush x:Key="WindowButtonPressedColor" Color="DarkRed"/>
 
     <!---red window brushes-->
     <!--<SolidColorBrush x:Key="WindowColor" Color="DarkRed"/>
@@ -28,8 +30,8 @@
     <custom:WindowCloseCommand x:Key="CloseCommand"></custom:WindowCloseCommand>
 
     <Style TargetType="{x:Type Button}" x:Key="WindowButton">
-        <Setter Property="Height" Value="25"/>
-        <Setter Property="Width" Value="25"/>
+        <Setter Property="Height" Value="{StaticResource ButtonSize}"/>
+        <Setter Property="Width" Value="{StaticResource ButtonSize}"/>
         <Setter Property="Background" Value="{StaticResource WindowButtonColor}"/>
         <Setter Property="Foreground" Value="{StaticResource WindowForeColor}"/>
         <Setter Property="Template">
@@ -66,14 +68,14 @@
         <Grid Background="{StaticResource WindowBackColor}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="5,0,5,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="45"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0"                                           
                                 custom:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}"                                               
@@ -89,7 +91,7 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Foreground="{StaticResource WindowForeColor}"                                           
-                                FontSize="16"
+                                FontSize="15"
                                 custom:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                 custom:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
                                 custom:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -135,7 +137,7 @@
     Here you can customize the look of the window without having to touch the control template 
     or comment out the brushes and create a new style (see the red style below)-->
 
-    <Style x:Key="StickyNoteWindowStyle" TargetType="{x:Type Window}">
+    <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="MinWidth" Value="200"/>
@@ -158,6 +160,19 @@
         <Setter Property="BorderBrush" Value="DarkRed"/>
         <Setter Property="BorderThickness" Value="7"/>
         <Setter Property="Foreground" Value="DarkGray"/>
+        <Setter Property="Template" Value="{StaticResource WindowTemplate}"/>
+    </Style>
+
+    <Style x:Key="StickyNoteWindowStyle" TargetType="{x:Type Window}">
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinHeight" Value="46"/>
+        <!--CaptionHeight + ResizeBorderThickness * 2-->
+        <Setter Property="Background" Value="Gold"/>
+        <Setter Property="BorderBrush" Value="Goldenrod"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="Orange"/>
         <Setter Property="Template" Value="{StaticResource WindowTemplate}"/>
     </Style>
 

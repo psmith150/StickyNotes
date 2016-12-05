@@ -15,6 +15,8 @@ namespace StickyNotes
         Thumb topLeft, topRight, bottomLeft, bottomRight, left, right, top, bottom;
         Style cornerThumbStyle;
         Style sideThumbStyle;
+        private double initialHeight;
+        private double initialWidth;
 
         // To store and manage the adorner's visual children.
         VisualCollection visualChildren;
@@ -29,6 +31,9 @@ namespace StickyNotes
             myStyles.Source = new Uri("/StickyNotes;component/StyleDictionary.xaml", UriKind.RelativeOrAbsolute);
             cornerThumbStyle = cornerStyle;
             sideThumbStyle = sideStyle;
+
+            initialHeight = ((FrameworkElement)this.AdornedElement).Height;
+            initialWidth = ((FrameworkElement)this.AdornedElement).Width;
 
             // Call a helper method to initialize the Thumbs
             // with a customized cursors.
@@ -50,6 +55,12 @@ namespace StickyNotes
             left.DragDelta += new DragDeltaEventHandler(HandleLeft);
             right.DragDelta += new DragDeltaEventHandler(HandleRight);
             bottom.DragDelta += new DragDeltaEventHandler(HandleBottom);
+
+            // Add handlers for locking aspect ratio
+            bottomLeft.DragStarted += new DragStartedEventHandler(BeginDrag);
+            bottomRight.DragStarted += new DragStartedEventHandler(BeginDrag);
+            topLeft.DragStarted += new DragStartedEventHandler(BeginDrag);
+            topRight.DragStarted += new DragStartedEventHandler(BeginDrag);
         }
 
         // Handler for resizing from the bottom-right.
@@ -64,10 +75,16 @@ namespace StickyNotes
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
+            // Check if ctrl is pressed
+            double? verticalChange = args.VerticalChange;
+            double? horizontalChange = args.HorizontalChange;
+
+            CheckAspectRatio(ref horizontalChange, ref verticalChange, adornedElement);
+
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
-            adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
-            adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
+            adornedElement.Width = Math.Max(adornedElement.Width + horizontalChange.Value, hitThumb.DesiredSize.Width);
+            adornedElement.Height = Math.Max(verticalChange.Value + adornedElement.Height, hitThumb.DesiredSize.Height);
         }
 
         // Handler for resizing from the top-right.
@@ -82,15 +99,22 @@ namespace StickyNotes
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
+            // Check if ctrl is pressed
+            double? verticalChange = args.VerticalChange;
+            double? horizontalChange = args.HorizontalChange;
+
+            CheckAspectRatio(ref horizontalChange, ref verticalChange, adornedElement);
+
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
-            adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
+            adornedElement.Width = Math.Max(adornedElement.Width + horizontalChange.Value, hitThumb.DesiredSize.Width);
             //adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
 
             double height_old = adornedElement.Height;
-            double height_new = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
+            double height_new = Math.Max(adornedElement.Height - verticalChange.Value, hitThumb.DesiredSize.Height);
             double top_old = Canvas.GetTop(adornedElement);
             adornedElement.Height = height_new;
+            Canvas.SetTop(adornedElement, top_old - (height_new - height_old));
         }
 
         // Handler for resizing from the top-left.
@@ -104,19 +128,25 @@ namespace StickyNotes
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
+            // Check if ctrl is pressed
+            double? verticalChange = args.VerticalChange;
+            double? horizontalChange = args.HorizontalChange;
+
+            CheckAspectRatio(ref horizontalChange, ref verticalChange, adornedElement);
+
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
             //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
             //adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
 
             double width_old = adornedElement.Width;
-            double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            double width_new = Math.Max(adornedElement.Width - horizontalChange.Value, hitThumb.DesiredSize.Width);
             double left_old = Canvas.GetLeft(adornedElement);
             adornedElement.Width = width_new;
             Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
 
             double height_old = adornedElement.Height;
-            double height_new = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
+            double height_new = Math.Max(adornedElement.Height - verticalChange.Value, hitThumb.DesiredSize.Height);
             double top_old = Canvas.GetTop(adornedElement);
             adornedElement.Height = height_new;
             Canvas.SetTop(adornedElement, top_old - (height_new - height_old));
@@ -133,13 +163,19 @@ namespace StickyNotes
             // Ensure that the Width and Height are properly initialized after the resize.
             EnforceSize(adornedElement);
 
+            // Check if ctrl is pressed
+            double? verticalChange = args.VerticalChange;
+            double? horizontalChange = args.HorizontalChange;
+
+            CheckAspectRatio(ref horizontalChange, ref verticalChange, adornedElement);
+
             // Change the size by the amount the user drags the mouse, as long as it's larger 
             // than the width or height of an adorner, respectively.
             //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
-            adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
+            adornedElement.Height = Math.Max(verticalChange.Value + adornedElement.Height, hitThumb.DesiredSize.Height);
 
             double width_old = adornedElement.Width;
-            double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
+            double width_new = Math.Max(adornedElement.Width - horizontalChange.Value, hitThumb.DesiredSize.Width);
             double left_old = Canvas.GetLeft(adornedElement);
             adornedElement.Width = width_new;
             Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
@@ -334,6 +370,55 @@ namespace StickyNotes
             {
                 adornedElement.MaxHeight = parent.ActualHeight;
                 adornedElement.MaxWidth = parent.ActualWidth;
+            }
+        }
+
+        // Handler for getting initial aspect ratio
+        private void BeginDrag(object sender, DragStartedEventArgs args)
+        {
+            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
+            initialHeight = adornedElement.ActualHeight;
+            initialWidth = adornedElement.ActualWidth;
+        }
+
+        /// <summary>
+        /// Checks the values so that the ratio beween them has a defined value.
+        /// </summary>
+        /// <param name="dragDeltaHorizontal">horizontal delta</param>
+        /// <param name="dragDeltaVertical">vertical delta</param>
+        /// <param name="aspectRatio">horizontal to vertical ration</param>
+        private void CheckAspectRatio(ref double? dragDeltaHorizontal, ref double? dragDeltaVertical, FrameworkElement adornedElement)
+        {
+            if (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                return;
+            }
+            double aspectRatio = initialWidth / initialHeight;
+            double tol = 0.001;
+            // Reset aspect ratio if already changed
+            if (Math.Abs(aspectRatio - adornedElement.ActualWidth/adornedElement.ActualHeight) > tol)
+            {
+                adornedElement.Width = Math.Max(adornedElement.ActualWidth, adornedElement.ActualHeight * aspectRatio);
+                adornedElement.Height = Math.Max(adornedElement.ActualHeight, adornedElement.ActualWidth / aspectRatio);
+            }
+            double? dragValue = null;
+            if (dragDeltaVertical.HasValue && dragDeltaHorizontal.HasValue)
+            {
+                dragValue = Math.Max(dragDeltaVertical.Value, dragDeltaHorizontal.Value);
+            }
+            else if (dragDeltaVertical.HasValue)
+            {
+                dragValue = dragDeltaVertical;
+            }
+            else if (dragDeltaHorizontal.HasValue)
+            {
+                dragValue = dragDeltaHorizontal;
+            }
+
+            if (dragValue.HasValue)
+            {
+                dragDeltaVertical = dragValue.Value * aspectRatio;
+                dragDeltaHorizontal = dragValue;
             }
         }
         // Override the VisualChildrenCount and GetVisualChild properties to interface with 
